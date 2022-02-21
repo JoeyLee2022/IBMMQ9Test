@@ -59,4 +59,15 @@ public class MqController {
         }
         return new String(hexChars, StandardCharsets.UTF_8);
     }
+    private static final String[] HEX_AR = {"0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"};
+    public static String bytes2Hex(byte[] bytes){
+        StringBuffer stringBuffer = new StringBuffer();
+        for(int i=0 ; i<bytes.length ; i++){
+            int b = bytes[i] & 0xFF;
+            String high = HEX_AR[b/16];
+            String low = String.valueOf(b % 16);
+            stringBuffer.append(high).append(low);
+        }
+        return stringBuffer.toString();
+    }
 }

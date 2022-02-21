@@ -8,11 +8,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.jms.Destination;
 import javax.jms.JMSException;
+import javax.jms.Message;
 import javax.jms.TextMessage;
 import java.nio.charset.StandardCharsets;
 
@@ -69,5 +71,14 @@ public class MqController {
             stringBuffer.append(high).append(low);
         }
         return stringBuffer.toString();
+    }
+
+    @JmsListener(destination = "ORDER.REQUEST")
+    public String receive(Message message) throws JMSException {
+        TextMessage textMessage = (TextMessage) message;
+        final String textMessageBody = textMessage.getText();
+
+        log.info("Message Recived from Order.Request: {}", textMessageBody);
+        return textMessageBody;
     }
 }

@@ -22,6 +22,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	// https://mvnrepository.com/artifact/commons-codec/commons-codec
 	implementation 'commons-codec:commons-codec:1.15'
+// https://mvnrepository.com/artifact/org.mockito/mockito-all
+	testImplementation 'org.mockito:mockito-all:2.0.2-beta'
 
 }
 

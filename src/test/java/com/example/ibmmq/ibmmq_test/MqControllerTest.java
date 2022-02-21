@@ -2,14 +2,21 @@ package com.example.ibmmq.ibmmq_test;
 
 import com.example.ibmmq.ibmmq_test.controller.MqController;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.apache.commons.codec.binary.Hex;
+import org.springframework.util.Assert;
+
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.TextMessage;
+
 @SpringBootTest
 public class MqControllerTest {
 
 
     @Test
-    public void byte2Hex(){
+    public void byte2Hex() {
         String str = "12345";
         byte[] str2Bytes = str.getBytes();
         System.out.println(str2Bytes + "--- Bytes ---");
@@ -24,24 +31,32 @@ public class MqControllerTest {
     }
 
     @Test
-    public void shiftOperatorTest(){
-        int a=49;
+    public void shiftOperatorTest() {
+        int a = 49;
         System.out.println("Integer_MAX:" + Integer.MAX_VALUE);
         System.out.println("Integer_MIN:" + Integer.MIN_VALUE);
         System.out.println("Byte_MAX:" + Byte.MAX_VALUE);
-        System.out.println("a<<? :"+ (a>>>4));
+        System.out.println("a<<? :" + (a >>> 4));
         System.out.println("(49 to Hex) = (" + (49 >>> 4) + "" + (49 % 16) + ")");
     }
 
     @Test
-    public void swapTwoIntWithoutTempVaraiabel(){
+    public void messageListenerTest() throws JMSException {
+        TextMessage message = Mockito.mock(TextMessage.class);
+        Mockito.when(message.getText()).thenReturn("THIS IS A TEST MESSAGE");
+        String result = new MqController().receive(message);
+        Assert.isTrue(result.equals("THIS IS A TEST MESSAGE"));
+    }
+
+    @Test
+    public void swapTwoIntWithoutTempVaraiabel() {
         int a = 3;
         int b = 9;
-        a = b - a ;
-      //6   9 - 3
+        a = b - a;
+        //6   9 - 3
         b = b - a;
-      //3   9   6
+        //3   9   6
         a = a + b;
-      //9   6   3
+        //9   6   3
     }
 }
